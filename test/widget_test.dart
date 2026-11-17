@@ -1,30 +1,29 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:lab5/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('StudentHub opens on Home and switches to Students', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const StudentHubApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    Finder appBarText(String text) =>
+        find.descendant(of: find.byType(AppBar), matching: find.text(text));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(appBarText('Home'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Works with the temporary "Tab 2" button (Part 1) and with the real
+    // NavigationBar (after Part 8 is merged).
+    final realTab = find.descendant(
+      of: find.byType(NavigationBar),
+      matching: find.text('Students'),
+    );
+    await tester.tap(
+      realTab.evaluate().isNotEmpty ? realTab : find.text('Tab 2'),
+    );
+    await tester.pumpAndSettle();
+
+    expect(appBarText('Students'), findsOneWidget);
   });
 }
