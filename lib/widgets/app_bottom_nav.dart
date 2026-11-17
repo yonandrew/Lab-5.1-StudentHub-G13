@@ -12,17 +12,36 @@ class AppBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          for (var i = 0; i < 5; i++)
-            TextButton(
-              onPressed: () => onSelect(i),
-              child: Text('Tab ${i + 1}'),
-            ),
-        ],
-      ),
+    return NavigationBar(
+      selectedIndex: selectedIndex,
+      onDestinationSelected: onSelect,
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.home_outlined),
+          selectedIcon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.people_outline),
+          selectedIcon: Icon(Icons.people),
+          label: 'Students',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.table_chart_outlined),
+          selectedIcon: Icon(Icons.table_chart),
+          label: 'Records',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.school_outlined),
+          selectedIcon: Icon(Icons.school),
+          label: 'Programmes',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.info_outline),
+          selectedIcon: Icon(Icons.info),
+          label: 'About',
+        ),
+      ],
     );
   }
 }
